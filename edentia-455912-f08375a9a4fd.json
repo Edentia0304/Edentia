@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "edentia-455912",
+  "private_key_id": "f08375a9a4fd3711b9a31033a6beae6527c3e0bb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCv9G/YJHEd/LLA\nkQe5OQP5t8+wPHL7xInxiZuuuTliRaqdsvDzXAYTao4274hsRAG2EYUEJyOuf9n9\no3PCVAZJeFLGQMDgjLAbCSy+DvCUi2yELKyFWGLMGsnufpUQoIDg/JovI4OzSkBu\nXggyHc0rKdyCDcyu78iuCjnI6uzWbJKVE0JIFlBx6RrLhhYYSaggJBL/De50JKS8\nYSfFK3Go2GtI0zdiUmrGyW5OkWUOel+EvhgO8AnES5RztR9rzZePrcAeTZxyp6zv\nWyiQekeDsQcyIBztAksXxEs5K8YnhaXOl2Ptjj7iihUWp/r1T1TRNovTjt+8be5E\n4Sc8JUKVAgMBAAECggEAD62Qj6pDl//tr4HctdDSPVx2+YWRW0SaY/a2c/2WEt8R\nQkbw+EYxVmaOsG9scPUoT+BEwWd5YvGKa3K2fFC/VKmPepHHfdqbUHVjUrYDEsFP\nlIFkh+clunkCmCkYQCiFA0cOt/eKox2RGyRux4RnRRrQRphTLh04fOV1W6UvIDXb\nJ8NobJggqH719q4FK/w9z7LdmxHQ+w9ZS90Oa396Be3zPbRUSIDLyPCMDlQq+bdb\nspv2OqNJHVBPU+JBmF8nnZ298xeW7nTtjo+SQQfRDvyF4WwJH2NgLJMVsRNT7KVL\nu7Sm7OiJLgSJyPbDaV2tRoNX9DF1RX6/kDEbnARhgQKBgQD1+G4lNXYCDDgAesWW\n8idgvKjEtiSBqhRJoc8gIge7mC5MNINX9nfOPKlnU3DDXiI30PH0XQj1/1BMhyn4\nBNRc7rP27sAgjsPTGMt/T7aeNnz3VZLqPR1XWN0FEhYZ2dKpvsLZIgCQTwWUAGYL\n+TcBCwuXR69k31qBSRYurYQLVQKBgQC3ISWOALzKb3DbpBHCa5RKxFConmFNL8G8\ne9AHN+m19akgppnUjnYvTa2QGBLUrdpRZR7ksYHoJRpKhiGRVZ/GfIePPMS+EE40\nY4sAGCTfCQ0uqT3CVILhd4WFwa7vfQ7VWgLwva4TS3reRHZOHEqJ/ry+mbVJPU1s\nMnP6/BjaQQKBgHSoxjzZlUW1W95GXG6SHUERWY4qwTfKXeLqXp1j5nz/2X2FLoJK\nwFnNhZ8fAQ14GQyWChuXAIgD9qbFOI+MYthM0ogchn0qmRAG44VXXkq9lxmLuall\nIQRrfjBIerj6CaM+eZWYPeIzyHaAleW55m+VOIMgmbxi/r7w1hd/bnAdAoGATAKk\nFdbUhanPzDrDbFE+0fG+EN78QA9seJFjfTuF9BKtSnIcM4+WGnhBbCex2Tj3/wTb\n18ydwP91dC1MTYiessIJejic6M7XxwLyNO3QkAqvwAhbLAfr8y2q7CPCOoFL4N5l\njgsM79FKhGsiN7WicribGvmtt2KMejZO0YRFxIECgYEAoc4BpJVrrU+ue40UYo03\n0Bz74AwIQKT2L7UhPkrFkp68EztBXbtclXmDPO76yH48rmQojm6vFUvVXf4DxiAv\n+0/WKRagMz/QoWHYNvbOvn90TEh2yDOXL8jLCTNKyR8Co8Y+rRIcB8CwZkNGJy3h\nlxOkR3rHddPS3hecEaKRZME=\n-----END PRIVATE KEY-----\n",
+  "client_email": "mbti-linebot-access@edentia-455912.iam.gserviceaccount.com",
+  "client_id": "101063801687855887354",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mbti-linebot-access%40edentia-455912.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

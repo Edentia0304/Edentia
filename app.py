@@ -14,8 +14,8 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 app = Flask(__name__)
 
 # วาง token ของคุณที่นี่
-LINE_CHANNEL_ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN'
-LINE_CHANNEL_SECRET = 'YOUR_SECRET'
+LINE_CHANNEL_ACCESS_TOKEN = '2007211202'
+LINE_CHANNEL_SECRET = 'f24a0d6a0e67b20306882e2cda6e1a04'
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)

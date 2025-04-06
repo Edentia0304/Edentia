@@ -37,7 +37,7 @@ from datetime import datetime
 
 def save_to_google_sheet(user_id, answers, mbti, scores, faculties):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials/credentials.json", scope)
     client = gspread.authorize(creds)
 
     sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/18XEwalClnj1dgjaG0ujT_0duhWe5NMzyNQ7Qg-9DiJE/edit?usp=sharing").sheet1

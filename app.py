@@ -45,9 +45,8 @@ questions = [
             "E": {"text": "ไม่แน่ใจ", "score": "F+0"},
         }
     },
-    # 👉 เพิ่มจนถึงข้อ 20
+    # เพิ่มคำถามจนถึงข้อ 20
 ]
-
 
 # User session store
 user_sessions = {}
@@ -69,14 +68,14 @@ def handle_message(event):
 
     if message_text.lower() == "เริ่มทำแบบทดสอบ":
         user_sessions[user_id] = {"answers": [], "current_question": 0}
-        send_question(user_id)
+        send_question(user_id, event.reply_token)
     elif user_id in user_sessions:
         session = user_sessions[user_id]
-        session["answers"].append(message_text)
+        session["answers"].append(message_text.upper())
         session["current_question"] += 1
 
         if session["current_question"] < len(questions):
-            send_question(user_id)
+            send_question(user_id, event.reply_token)
         else:
             mbti_result = calculate_mbti(session["answers"])
             faculties = recommend_faculties(mbti_result)
@@ -92,14 +91,31 @@ def handle_message(event):
             TextSendMessage(text="พิมพ์ 'เริ่มทำแบบทดสอบ' เพื่อเริ่มทำแบบทดสอบ MBTI")
         )
 
-def send_question(user_id):
+def send_question(user_id, reply_token):
     session = user_sessions[user_id]
-    question = questions[session["current_question"]]
-    line_bot_api.push_message(user_id, TextSendMessage(text=question))
+    q = questions[session["current_question"]]
+    text = q["text"] + "\n" + "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()])
+    line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
 
 def calculate_mbti(answers):
-    # ปรับตรรกะให้ตรงกับการคิดคะแนนจริงของคุณ
-    return "INFP"  # placeholder
+    scores = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}
+
+    for i, ans in enumerate(answers):
+        if i >= len(questions):
+            continue
+        q = questions[i]
+        choice = q["choices"].get(ans.upper())
+        if choice:
+            trait, value = choice["score"][0], int(choice["score"][2])
+            scores[trait] += value
+
+    mbti = ""
+    mbti += "E" if scores["E"] >= scores["I"] else "I"
+    mbti += "S" if scores["S"] >= scores["N"] else "N"
+    mbti += "T" if scores["T"] >= scores["F"] else "F"
+    mbti += "J" if scores["J"] >= scores["P"] else "P"
+
+    return mbti
 
 def recommend_faculties(mbti_type):
     recommendations = {

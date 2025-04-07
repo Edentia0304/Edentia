@@ -227,9 +227,6 @@ questions = [
   }
 ]
 
-    # เพิ่มคำถามจนถึงข้อ 20
-]
-
 # User session store
 user_sessions = {}
 

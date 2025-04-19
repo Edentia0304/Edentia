@@ -309,7 +309,12 @@ J:P = {j}:{p}"""
             )
             del user_sessions[user_id]
 
-    else: continue
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="พิมพ์ 'เริ่มทำแบบทดสอบ' เพื่อเริ่มทำแบบทดสอบ MBTI")
+        )
+
 def send_question(user_id, reply_token):
     session = user_sessions[user_id]
     q = questions[session["current_question"]]

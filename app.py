@@ -274,21 +274,21 @@ def handle_message(event):
                 j, p = reduce_ratio(scores['J'], scores['P'])
 
                 ratios = f"""อัตราส่วนลักษณะ:
-                I:E = {i}:{e}
-                N:S = {n}:{s}
-                T:F = {t}:{f}
-                J:P = {j}:{p}"""
+        I:E = {i}:{e}
+        N:S = {n}:{s}
+        T:F = {t}:{f}
+        J:P = {j}:{p}"""
 
 
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(
                     text=f"""คุณคือ {mbti_result}
-            ความหมาย: {info["คำอธิบาย"]}
-            อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
+        ความหมาย: {info["คำอธิบาย"]}
+        อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
 
-            คะแนนลักษณะ:
-            {ratios}"""
+        คะแนนลักษณะ:
+        {ratios}"""
                 )
             )
             del user_sessions[user_id]

@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -241,13 +240,13 @@ def webhook():
     except InvalidSignatureError:
         return 'Invalid signature', 400
     return 'OK', 200
-
-@handler.add(MessageEvent, message=TextMessage)
+import math  # <== อย่าลืม import นี้ด้วย
 def reduce_ratio(a, b):
     if a == 0 and b == 0:
         return (0, 0)
     gcd = math.gcd(a, b)
-    return (a // gcd, b // gcd)    
+    return (a // gcd, b // gcd)
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = event.source.user_id
     message_text = event.message.text.strip()
@@ -268,7 +267,7 @@ def handle_message(event):
             save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
 
 # อัตราส่วนคู่ตรงข้าม
-            ratios = (
+
                 i, e = reduce_ratio(scores['I'], scores['E'])
                 n, s = reduce_ratio(scores['N'], scores['S'])
                 t, f = reduce_ratio(scores['T'], scores['F'])
@@ -279,7 +278,7 @@ def handle_message(event):
                 N:S = {n}:{s}
                 T:F = {t}:{f}
                 J:P = {j}:{p}"""
-                )
+
 
             line_bot_api.reply_message(
                 event.reply_token,

@@ -240,12 +240,14 @@ def webhook():
     except InvalidSignatureError:
         return 'Invalid signature', 400
     return 'OK', 200
-import math  # <== อย่าลืม import นี้ด้วย
+
+import math
 def reduce_ratio(a, b):
     if a == 0 and b == 0:
         return (0, 0)
     gcd = math.gcd(a, b)
     return (a // gcd, b // gcd)
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = event.source.user_id
@@ -254,60 +256,61 @@ def handle_message(event):
     if message_text.lower() == "เริ่มทำแบบทดสอบ":
         user_sessions[user_id] = {"answers": [], "current_question": 0}
         send_question(user_id, event.reply_token)
+
     elif user_id in user_sessions:
-    session = user_sessions[user_id]
-    current_q = session["current_question"]
-    q = questions[current_q]
-    
-    answer = message_text.upper()
+        session = user_sessions[user_id]
+        current_q = session["current_question"]
+        q = questions[current_q]
 
-    if answer not in q["choices"]:
-        # ตอบไม่ถูกต้อง → ส่งคำถามเดิมอีกครั้ง
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="กรุณาตอบด้วย A, B, C, D หรือ E เท่านั้นค่ะ 😊\n\n" +
-                            q["text"] + "\n" +
-                            "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()]))
-        )
-        return  # ⛔ ออกจาก function ไม่เก็บคำตอบ
-    
-    # ✅ ถ้าตอบถูกต้อง (A–E)
-    session["answers"].append(answer)
-    session["current_question"] += 1
+        answer = message_text.upper()
 
-    if session["current_question"] < len(questions):
-        send_question(user_id, event.reply_token)
-    else:
-        mbti_result, scores = calculate_mbti(session["answers"])
-        info = get_mbti_info(mbti_result)
-        save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
+        if answer not in q["choices"]:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="กรุณาตอบด้วย A, B, C, D หรือ E เท่านั้นค่ะ 😊\n\n" +
+                                q["text"] + "\n" +
+                                "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()]))
+            )
+            return  # 🛑 อย่าบันทึกคำตอบ
 
-    # อัตราส่วนคู่ตรงข้าม
+        # ✅ ถ้าตอบถูกต้อง
+        session["answers"].append(answer)
+        session["current_question"] += 1
+
+        if session["current_question"] < len(questions):
+            send_question(user_id, event.reply_token)
+        else:
+            mbti_result, scores = calculate_mbti(session["answers"])
+            info = get_mbti_info(mbti_result)
+            save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
+
+            # คำนวณอัตราส่วน
             i, e = reduce_ratio(scores['I'], scores['E'])
             n, s = reduce_ratio(scores['N'], scores['S'])
             t, f = reduce_ratio(scores['T'], scores['F'])
             j, p = reduce_ratio(scores['J'], scores['P'])
 
             ratios = f"""อัตราส่วนลักษณะ:
-        I:E = {i}:{e}
-        N:S = {n}:{s}
-        T:F = {t}:{f}
-        J:P = {j}:{p}"""
+I:E = {i}:{e}
+N:S = {n}:{s}
+T:F = {t}:{f}
+J:P = {j}:{p}"""
 
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(
                     text=f"""คุณคือ {mbti_result}
-        ความหมาย: {info["คำอธิบาย"]}
-        อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
+ความหมาย: {info["คำอธิบาย"]}
+อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
 
-        คะแนนลักษณะ:
-        {ratios}"""
+คะแนนลักษณะ:
+{ratios}"""
                 )
             )
             del user_sessions[user_id]
-        )
 
+    else:
+        )
 def send_question(user_id, reply_token):
     session = user_sessions[user_id]
     q = questions[session["current_question"]]

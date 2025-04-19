@@ -750,9 +750,6 @@ def get_mbti_info(mbti_type, lang):
             "description": "Unknown type",
             "careers": ["No recommended careers yet"]
         }
-    
-print("MBTI:", mbti_result)
-print("Scores:", scores)
 
 def save_to_google_sheet(user_id, answers, mbti_result, faculties):
     timestamp = datetime.now().isoformat()

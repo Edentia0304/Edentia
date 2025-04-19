@@ -254,17 +254,33 @@ def handle_message(event):
     if message_text.lower() == "เริ่มทำแบบทดสอบ":
         user_sessions[user_id] = {"answers": [], "current_question": 0}
         send_question(user_id, event.reply_token)
-    elif user_id in user_sessions:
-        session = user_sessions[user_id]
-        session["answers"].append(message_text.upper())
-        session["current_question"] += 1
+   elif user_id in user_sessions:
+    session = user_sessions[user_id]
+    current_q = session["current_question"]
+    q = questions[current_q]
+    
+    answer = message_text.upper()
 
-        if session["current_question"] < len(questions):
-            send_question(user_id, event.reply_token)
-        else:
-            mbti_result, scores = calculate_mbti(session["answers"])
-            info = get_mbti_info(mbti_result)
-            save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
+    if answer not in q["choices"]:
+        # ตอบไม่ถูกต้อง → ส่งคำถามเดิมอีกครั้ง
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="กรุณาตอบด้วย A, B, C, D หรือ E เท่านั้นค่ะ 😊\n\n" +
+                            q["text"] + "\n" +
+                            "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()]))
+        )
+        return  # ⛔ ออกจาก function ไม่เก็บคำตอบ
+    
+    # ✅ ถ้าตอบถูกต้อง (A–E)
+    session["answers"].append(answer)
+    session["current_question"] += 1
+
+    if session["current_question"] < len(questions):
+        send_question(user_id, event.reply_token)
+    else:
+        mbti_result, scores = calculate_mbti(session["answers"])
+        info = get_mbti_info(mbti_result)
+        save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
 
     # อัตราส่วนคู่ตรงข้าม
             i, e = reduce_ratio(scores['I'], scores['E'])

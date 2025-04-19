@@ -740,10 +740,12 @@ mbti_info_en = {
 }
 def get_mbti_info(mbti_type, lang):
     info = mbti_info_th.get(mbti_type) if lang == "th" else mbti_info_en.get(mbti_type)
-    return info or {
-        "description": "ไม่พบข้อมูลบุคลิกภาพนี้" if lang == "th" else "Unknown type",
-        "careers": ["ยังไม่มีคำแนะนำคณะที่ชัดเจน" if lang == "th" else "No recommended careers yet"]
-    }
+    if info is None:
+        return {
+            "description": "ไม่พบข้อมูลบุคลิกภาพนี้" if lang == "th" else "Unknown MBTI type.",
+            "careers": ["ไม่มีข้อมูลอาชีพที่เหมาะสม" if lang == "th" else "No career data available."]
+        }
+    return info
     
 
 def save_to_google_sheet(user_id, answers, mbti_result, faculties):

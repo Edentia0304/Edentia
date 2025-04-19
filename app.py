@@ -254,7 +254,7 @@ def handle_message(event):
     if message_text.lower() == "เริ่มทำแบบทดสอบ":
         user_sessions[user_id] = {"answers": [], "current_question": 0}
         send_question(user_id, event.reply_token)
-   elif user_id in user_sessions:
+    elif user_id in user_sessions:
     session = user_sessions[user_id]
     current_q = session["current_question"]
     q = questions[current_q]
@@ -306,7 +306,6 @@ def handle_message(event):
                 )
             )
             del user_sessions[user_id]
-    else:
         )
 
 def send_question(user_id, reply_token):

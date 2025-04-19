@@ -577,7 +577,7 @@ J:P = {j}:{p}"""
 
 def send_question(user_id, reply_token):
     session = user_sessions[user_id]
-    lang = session.get("language", "th")  # fallback ภาษาไทย
+    lang = session.get("language", "th")
     qlist = questions_th if lang == "th" else questions_en
     q = qlist[session["current_question"]]
     text = q["text"] + "\n" + "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()])
@@ -666,71 +666,77 @@ mbti_descriptions_th = {
             "อาชีพที่เหมาะสม": ["ผู้กำกับการแสดง", "ผู้สื่อข่าวเต้นรำ", "นักดนตรี", "นักโฆษณา", "นักแสดง", "นักประชาสัมพันธ์", "นางแบบ - นายแบบ", "นักจัดรายการวิทยุโทรทัศน์", "นักวิจารณ์", "จิตรกร"]
         }
     }
-mbti_info_th = mbti_descriptions_th
+mbti_info_th = {
+    k: {
+        "description": v["คำอธิบาย"],
+        "careers": v["อาชีพที่เหมาะสม"]
+    }
+    for k, v in mbti_descriptions_th.items()
+}
 mbti_info_en = {
     "ENTJ": {
         "Description": "A strong leader. They think with logic, feel confident, and can lead others.",
-        "Occupations": ["Politician", "Lawyer", "Judge"]
+        "careers": ["Politician", "Lawyer", "Judge"]
     },
     "ENTP": {
         "Description": "A smart and creative person. They like to talk, ask questions, and share ideas.",
-        "Occupations": ["Economist", "Doctor", "Vet", "Dentist", "Pharmacist", "Medical Lab Worker"]
+        "careers": ["Economist", "Doctor", "Vet", "Dentist", "Pharmacist", "Medical Lab Worker"]
     },
     "ENFJ": {
         "Description": "A kind and friendly person. They care about people and like to help.",
-        "Occupations": ["Advertiser", "Actor", "PR Officer", "Interior Designer", "Architect", "Model", "TV/Radio Host", "Fashion Designer", "Critic"]
+        "careers": ["Advertiser", "Actor", "PR Officer", "Interior Designer", "Architect", "Model", "TV/Radio Host", "Fashion Designer", "Critic"]
     },
     "ENFP": {
         "Description": "A fun and creative person. They enjoy new things and make friends easily.",
-        "Occupations": ["Fisher", "Hiker", "Forest Worker", "Athlete", "Sailor", "Diver"]
+        "careers": ["Fisher", "Hiker", "Forest Worker", "Athlete", "Sailor", "Diver"]
     },
     "ESTJ": {
         "Description": "A clear and practical thinker. They make smart and fair decisions.",
-        "Occupations": ["Business Broker", "Business Advisor"]
+        "careers": ["Business Broker", "Business Advisor"]
     },
     "ESTP": {
         "Description": "An active and sharp person. They see details and think fast.",
-        "Occupations": ["Businessperson", "Marketer", "Manager"]
+        "careers": ["Businessperson", "Marketer", "Manager"]
     },
     "ESFJ": {
         "Description": "A warm and helpful person. People trust and like them.",
-        "Occupations": ["Career Helper", "Advisor"]
+        "careers": ["Career Helper", "Advisor"]
     },
     "ESFP": {
         "Description": "A fun and happy person. They love people and enjoy talking.",
-        "Occupations": ["Inventor", "Photographer", "Printer", "Designer", "Writer", "Voice Actor", "Dancer", "Comic Artist", "Art Teacher", "Music Leader"]
+        "careers": ["Inventor", "Photographer", "Printer", "Designer", "Writer", "Voice Actor", "Dancer", "Comic Artist", "Art Teacher", "Music Leader"]
     },
     "INTJ": {
         "Description": "A planner and thinker. They love to learn and have big ideas.",
-        "Occupations": ["Statistician", "Financial Analyst"]
+        "careers": ["Statistician", "Financial Analyst"]
     },
     "INTP": {
         "Description": "A thinker who loves ideas and learning. They like to create new things.",
-        "Occupations": ["Physicist", "Scientist", "Biologist", "Chemist", "Academic", "Planner"]
+        "careers": ["Physicist", "Scientist", "Biologist", "Chemist", "Academic", "Planner"]
     },
     "INFJ": {
         "Description": "A quiet and caring person. They understand others well.",
-        "Occupations": ["Teacher", "Researcher"]
+        "careers": ["Teacher", "Researcher"]
     },
     "INFP": {
         "Description": "A kind and honest person. They respect others and stay positive.",
-        "Occupations": ["Manager", "Librarian", "Nutritionist", "Tour Guide", "Interpreter", "Preacher"]
+        "careers": ["Manager", "Librarian", "Nutritionist", "Tour Guide", "Interpreter", "Preacher"]
     },
     "ISTJ": {
         "Description": "A serious and careful person. They like facts and real things.",
-        "Occupations": ["Accountant", "Secretary", "Bank Officer", "Auditor", "Clerk", "Tax Officer", "Computer Staff"]
+        "careers": ["Accountant", "Secretary", "Bank Officer", "Auditor", "Clerk", "Tax Officer", "Computer Staff"]
     },
     "ISTP": {
         "Description": "A hands-on person. They like to fix and build things.",
-        "Occupations": ["Technician", "Mechanic", "Builder", "Electrician", "Tailor", "Surveyor", "Plumber"]
+        "careers": ["Technician", "Mechanic", "Builder", "Electrician", "Tailor", "Surveyor", "Plumber"]
     },
     "ISFJ": {
         "Description": "A gentle and loyal person. They care about people and avoid fights.",
-        "Occupations": ["Nurse", "Social Worker", "HR Officer", "Trainer", "Peace Worker", "Diplomat"]
+        "careers": ["Nurse", "Social Worker", "HR Officer", "Trainer", "Peace Worker", "Diplomat"]
     },
     "ISFP": {
         "Description": "A quiet and free person. They enjoy time alone but are still friendly.",
-        "Occupations": ["Director", "Musician", "Artist", "Actor", "PR Officer", "Model", "TV Host", "Critic", "Painter"]
+        "careers": ["Director", "Musician", "Artist", "Actor", "PR Officer", "Model", "TV Host", "Critic", "Painter"]
     }
 }
 def get_mbti_info(mbti_type, lang):

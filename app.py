@@ -266,11 +266,16 @@ def handle_message(event):
             send_question(user_id, event.reply_token)
         else:
             mbti_result = calculate_mbti(session["answers"])
-            faculties = recommend_faculties(mbti_result)
-            save_to_google_sheet(user_id, session["answers"], mbti_result, faculties)
+            info = get_mbti_info(mbti_result)
+            save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
+
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"คุณคือ {mbti_result}\nแนะนำคณะ: {', '.join(faculties)}")
+                TextSendMessage(
+                    text=f"""คุณคือ {mbti_result}
+        ความหมาย: {info["คำอธิบาย"]}
+        อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}"""
+                )
             )
             del user_sessions[user_id]
     else:
@@ -373,7 +378,7 @@ def get_mbti_info(mbti_type):
     }
 }
 
-        return mbti_descriptions.get(
+    return mbti_descriptions.get(
         mbti_type,
         {
             "description": "ไม่พบข้อมูลบุคลิกภาพนี้",

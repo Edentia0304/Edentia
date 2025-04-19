@@ -291,9 +291,6 @@ def handle_message(event):
             )
             del user_sessions[user_id]
     else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="พิมพ์ 'เริ่มทำแบบทดสอบ' เพื่อเริ่มทำแบบทดสอบ MBTI")
         )
 
 def send_question(user_id, reply_token):

@@ -482,7 +482,7 @@ def handle_message(event):
         user_sessions[user_id] = {"state": "waiting_language"}
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="กรุณาเลือกภาษา:\nพิมพ์ 'ไทย' หรือ 'English'")
+            TextSendMessage(text="กรุณาเลือกภาษา:พิมพ์ 'ไทย' หรือ 'English'\nPlese select language : print 'ไทย' or 'English'")
         )
         return
 

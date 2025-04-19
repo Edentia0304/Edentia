@@ -310,7 +310,6 @@ J:P = {j}:{p}"""
             del user_sessions[user_id]
 
     else: continue
-        )
 def send_question(user_id, reply_token):
     session = user_sessions[user_id]
     q = questions[session["current_question"]]

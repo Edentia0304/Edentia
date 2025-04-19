@@ -673,67 +673,67 @@ mbti_info_th = {
 }
 mbti_info_en = {
     "ENTJ": {
-        "Description": "A strong leader. They think with logic, feel confident, and can lead others.",
+        "description": "A strong leader. They think with logic, feel confident, and can lead others.",
         "careers": ["Politician", "Lawyer", "Judge"]
     },
     "ENTP": {
-        "Description": "A smart and creative person. They like to talk, ask questions, and share ideas.",
+        "description": "A smart and creative person. They like to talk, ask questions, and share ideas.",
         "careers": ["Economist", "Doctor", "Vet", "Dentist", "Pharmacist", "Medical Lab Worker"]
     },
     "ENFJ": {
-        "Description": "A kind and friendly person. They care about people and like to help.",
+        "description": "A kind and friendly person. They care about people and like to help.",
         "careers": ["Advertiser", "Actor", "PR Officer", "Interior Designer", "Architect", "Model", "TV/Radio Host", "Fashion Designer", "Critic"]
     },
     "ENFP": {
-        "Description": "A fun and creative person. They enjoy new things and make friends easily.",
+        "description": "A fun and creative person. They enjoy new things and make friends easily.",
         "careers": ["Fisher", "Hiker", "Forest Worker", "Athlete", "Sailor", "Diver"]
     },
     "ESTJ": {
-        "Description": "A clear and practical thinker. They make smart and fair decisions.",
+        "description": "A clear and practical thinker. They make smart and fair decisions.",
         "careers": ["Business Broker", "Business Advisor"]
     },
     "ESTP": {
-        "Description": "An active and sharp person. They see details and think fast.",
+        "description": "An active and sharp person. They see details and think fast.",
         "careers": ["Businessperson", "Marketer", "Manager"]
     },
     "ESFJ": {
-        "Description": "A warm and helpful person. People trust and like them.",
+        "description": "A warm and helpful person. People trust and like them.",
         "careers": ["Career Helper", "Advisor"]
     },
     "ESFP": {
-        "Description": "A fun and happy person. They love people and enjoy talking.",
+        "description": "A fun and happy person. They love people and enjoy talking.",
         "careers": ["Inventor", "Photographer", "Printer", "Designer", "Writer", "Voice Actor", "Dancer", "Comic Artist", "Art Teacher", "Music Leader"]
     },
     "INTJ": {
-        "Description": "A planner and thinker. They love to learn and have big ideas.",
+        "description": "A planner and thinker. They love to learn and have big ideas.",
         "careers": ["Statistician", "Financial Analyst"]
     },
     "INTP": {
-        "Description": "A thinker who loves ideas and learning. They like to create new things.",
+        "description": "A thinker who loves ideas and learning. They like to create new things.",
         "careers": ["Physicist", "Scientist", "Biologist", "Chemist", "Academic", "Planner"]
     },
     "INFJ": {
-        "Description": "A quiet and caring person. They understand others well.",
+        "description": "A quiet and caring person. They understand others well.",
         "careers": ["Teacher", "Researcher"]
     },
     "INFP": {
-        "Description": "A kind and honest person. They respect others and stay positive.",
+        "description": "A kind and honest person. They respect others and stay positive.",
         "careers": ["Manager", "Librarian", "Nutritionist", "Tour Guide", "Interpreter", "Preacher"]
     },
     "ISTJ": {
-        "Description": "A serious and careful person. They like facts and real things.",
+        "description": "A serious and careful person. They like facts and real things.",
         "careers": ["Accountant", "Secretary", "Bank Officer", "Auditor", "Clerk", "Tax Officer", "Computer Staff"]
     },
     "ISTP": {
-        "Description": "A hands-on person. They like to fix and build things.",
+        "description": "A hands-on person. They like to fix and build things.",
         "careers": ["Technician", "Mechanic", "Builder", "Electrician", "Tailor", "Surveyor", "Plumber"]
     },
     "ISFJ": {
-        "Description": "A gentle and loyal person. They care about people and avoid fights.",
+        "description": "A gentle and loyal person. They care about people and avoid fights.",
         "careers": ["Nurse", "Social Worker", "HR Officer", "Trainer", "Peace Worker", "Diplomat"]
     },
     "ISFP": {
-        "Description": "A quiet and free person. They enjoy time alone but are still friendly.",
+        "description": "A quiet and free person. They enjoy time alone but are still friendly.",
         "careers": ["Director", "Musician", "Artist", "Actor", "PR Officer", "Model", "TV Host", "Critic", "Painter"]
     }
 }

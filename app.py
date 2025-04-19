@@ -432,7 +432,21 @@ questions_en = [
 
 # User session store
 user_sessions = {}
+def calculate_mbti(answers, questions):
+    scores = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}
+    for i, ans in enumerate(answers):
+        q = questions[i]
+        choice = q["choices"].get(ans.upper())
+        if choice:
+            trait, value = choice["score"][0], int(choice["score"][2])
+            scores[trait] += value
 
+    mbti = ""
+    mbti += "E" if scores["E"] >= scores["I"] else "I"
+    mbti += "S" if scores["S"] >= scores["N"] else "N"
+    mbti += "T" if scores["T"] >= scores["F"] else "F"
+    mbti += "J" if scores["J"] >= scores["P"] else "P"
+    
 def format_text_bar_chart(scores, title="ลักษณะบุคลิกภาพของคุณ"):
     chart_lines = [title]
     for trait in ['E', 'I', 'S', 'N', 'T', 'F', 'J', 'P']:
@@ -582,20 +596,6 @@ def send_question(user_id, reply_token):
     text = q["text"] + "\n" + "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()])
     line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
 
-def calculate_mbti(answers, questions):
-    scores = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}
-    for i, ans in enumerate(answers):
-        q = questions[i]
-        choice = q["choices"].get(ans.upper())
-        if choice:
-            trait, value = choice["score"][0], int(choice["score"][2])
-            scores[trait] += value
-
-    mbti = ""
-    mbti += "E" if scores["E"] >= scores["I"] else "I"
-    mbti += "S" if scores["S"] >= scores["N"] else "N"
-    mbti += "T" if scores["T"] >= scores["F"] else "F"
-    mbti += "J" if scores["J"] >= scores["P"] else "P"
 
     return mbti, scores
     

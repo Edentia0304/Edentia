@@ -228,7 +228,7 @@ questions = [
 ]
 
 
-    return mbti_descriptions.get(
+return mbti_descriptions.get(
         mbti_type,
         {
             "description": "ไม่พบข้อมูลบุคลิกภาพนี้",

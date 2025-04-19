@@ -460,12 +460,10 @@ def reduce_ratio(a, b):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    lang = session.get("language", "th")
-    questions = questions_th if lang == "th" else questions_en
-    mbti_result, scores = calculate_mbti(session["answers"], questions)
     user_id = event.source.user_id
     message_text = event.message.text.strip()
 
+    # เริ่มต้นทดสอบ
     if message_text.lower() == "เริ่มทำแบบทดสอบ":
         user_sessions[user_id] = {"state": "waiting_language"}
         line_bot_api.reply_message(
@@ -473,7 +471,9 @@ def handle_message(event):
             TextSendMessage(text="กรุณาเลือกภาษา:\nพิมพ์ 'ไทย' หรือ 'English'")
         )
         return
-    elif user_sessions.get(user_id, {}).get("state") == "waiting_language":
+
+    # รอเลือกภาษา
+    if user_sessions.get(user_id, {}).get("state") == "waiting_language":
         if message_text.lower() in ["thai", "ไทย", "english"]:
             lang = "th" if "thai" in message_text.lower() or "ไทย" in message_text.lower() else "en"
             user_sessions[user_id] = {
@@ -489,32 +489,39 @@ def handle_message(event):
                 TextSendMessage(text="กรุณาพิมพ์ 'ไทย' หรือ 'English' เท่านั้นครับ 😊")
             )
         return
-        
-    elif user_id in user_sessions:
-        session = user_sessions[user_id]
-        current_q = session["current_question"]
-        q = questions[current_q]
 
+    # ทำแบบทดสอบ
+    if user_id in user_sessions:
+        session = user_sessions[user_id]
+        lang = session.get("language", "th")
+        questions = questions_th if lang == "th" else questions_en
+        current_q = session["current_question"]
+
+        if current_q >= len(questions):
+            return  # กันพลาดถ้าเลย index
+
+        q = questions[current_q]
         answer = message_text.upper()
 
         if answer not in q["choices"]:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="กรุณาตอบด้วย A, B, C, D หรือ E เท่านั้นค่ะ 😊\n\n" +
-                                q["text"] + "\n" +
-                                "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()]))
+                TextSendMessage(
+                    text="กรุณาตอบด้วย A, B, C, D หรือ E เท่านั้นค่ะ 😊\n\n" +
+                         q["text"] + "\n" +
+                         "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()])
+                )
             )
-            return  # 🛑 อย่าบันทึกคำตอบ
+            return
 
-        # ✅ ถ้าตอบถูกต้อง
         session["answers"].append(answer)
         session["current_question"] += 1
 
         if session["current_question"] < len(questions):
             send_question(user_id, event.reply_token)
         else:
-            mbti_result, scores = calculate_mbti(session["answers"])
-            lang = session.get("language", "th")  # ภาษา
+            # ✅ ตรงนี้แหละ ที่ควรเรียก calculate_mbti
+            mbti_result, scores = calculate_mbti(session["answers"], questions)
 
             info = get_mbti_info(mbti_result, lang)
             save_to_google_sheet(user_id, session["answers"], mbti_result, info["careers"])
@@ -593,6 +600,7 @@ def calculate_mbti(answers, questions):
 
     return mbti, scores
     
+    mbti_info_th = mbti_descriptions_th
     mbti_descriptions_th = {
         "ENTJ": {
             "คำอธิบาย": "ผู้บัญชาการ: ผู้ที่มีความเป็นผู้นำสูง วิเคราะห์บนหลักของเหตุและผล มีความมั่นใจ และมีอิทธิพลต่อคนรอบข้าง",
@@ -726,14 +734,12 @@ def calculate_mbti(answers, questions):
     }
 }
 def get_mbti_info(mbti_type, lang):
-    return mbti_info_th[mbti_type] if lang == "th" else mbti_info_en[mbti_type]
-    return mbti_descriptions.get(
-        mbti_type,
-        {
-            "description": "ไม่พบข้อมูลบุคลิกภาพนี้",
-            "faculties": ["ยังไม่มีคำแนะนำคณะที่ชัดเจน"]
-        }
-    )
+    info = mbti_info_th.get(mbti_type) if lang == "th" else mbti_info_en.get(mbti_type)
+    return info or {
+        "description": "ไม่พบข้อมูลบุคลิกภาพนี้" if lang == "th" else "Unknown type",
+        "careers": ["ยังไม่มีคำแนะนำคณะที่ชัดเจน" if lang == "th" else "No recommended careers yet"]
+    }
+    
 
 def save_to_google_sheet(user_id, answers, mbti_result, faculties):
     timestamp = datetime.now().isoformat()
@@ -742,3 +748,4 @@ def save_to_google_sheet(user_id, answers, mbti_result, faculties):
 
 if __name__ == "__main__":
     app.run(debug=True)
+

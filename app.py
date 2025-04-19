@@ -433,12 +433,12 @@ questions_en = [
 # User session store
 user_sessions = {}
 
-def format_text_bar_chart(scores):
-    chart_lines = ["ลักษณะบุคลิกภาพของคุณ"]
+def format_text_bar_chart(scores, title="ลักษณะบุคลิกภาพของคุณ"):
+    chart_lines = [title]
     for trait in ['E', 'I', 'S', 'N', 'T', 'F', 'J', 'P']:
         val = scores[trait]
         bar = "█" * val
-        chart_lines.append(f"{trait}: {bar}  ({val})")
+        chart_lines.append(f"{trait}: {bar} ({val})")
     return "\n".join(chart_lines)
     
 @app.route("/webhook", methods=['POST'])
@@ -460,6 +460,9 @@ def reduce_ratio(a, b):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    lang = session.get("language", "th")
+    questions = questions_th if lang == "th" else questions_en
+    mbti_result, scores = calculate_mbti(session["answers"], questions)
     user_id = event.source.user_id
     message_text = event.message.text.strip()
 
@@ -573,12 +576,9 @@ def send_question(user_id, reply_token):
     text = q["text"] + "\n" + "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()])
     line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
 
-def calculate_mbti(answers):
+def calculate_mbti(answers, questions):
     scores = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}
-
     for i, ans in enumerate(answers):
-        if i >= len(questions):
-            continue
         q = questions[i]
         choice = q["choices"].get(ans.upper())
         if choice:
@@ -592,9 +592,7 @@ def calculate_mbti(answers):
     mbti += "J" if scores["J"] >= scores["P"] else "P"
 
     return mbti, scores
-
-def get_mbti_info(mbti_type, lang):
-    return mbti_info_th[mbti_type] if lang == "th" else mbti_info_en[mbti_type]
+    
     mbti_descriptions_th = {
         "ENTJ": {
             "คำอธิบาย": "ผู้บัญชาการ: ผู้ที่มีความเป็นผู้นำสูง วิเคราะห์บนหลักของเหตุและผล มีความมั่นใจ และมีอิทธิพลต่อคนรอบข้าง",
@@ -727,6 +725,8 @@ def get_mbti_info(mbti_type, lang):
         "Occupations": ["Director", "Musician", "Artist", "Actor", "PR Officer", "Model", "TV Host", "Critic", "Painter"]
     }
 }
+def get_mbti_info(mbti_type, lang):
+    return mbti_info_th[mbti_type] if lang == "th" else mbti_info_en[mbti_type]
     return mbti_descriptions.get(
         mbti_type,
         {

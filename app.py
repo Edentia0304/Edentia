@@ -463,7 +463,6 @@ def handle_message(event):
     user_id = event.source.user_id
     message_text = event.message.text.strip()
 
-    # เริ่มต้นทดสอบ
     if message_text.lower() == "เริ่มทำแบบทดสอบ":
         user_sessions[user_id] = {"state": "waiting_language"}
         line_bot_api.reply_message(
@@ -472,7 +471,7 @@ def handle_message(event):
         )
         return
 
-    # รอเลือกภาษา
+    # ✅ ต้องเช็ก state ก่อน
     if user_sessions.get(user_id, {}).get("state") == "waiting_language":
         if message_text.lower() in ["thai", "ไทย", "english"]:
             lang = "th" if "thai" in message_text.lower() or "ไทย" in message_text.lower() else "en"
@@ -491,7 +490,7 @@ def handle_message(event):
         return
 
     # ทำแบบทดสอบ
-    if user_id in user_sessions:
+    elif user_id in user_sessions:
         session = user_sessions[user_id]
         lang = session.get("language", "th")
         questions = questions_th if lang == "th" else questions_en

@@ -1,4 +1,5 @@
 import os
+
 from flask import Flask, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -242,6 +243,11 @@ def webhook():
     return 'OK', 200
 
 @handler.add(MessageEvent, message=TextMessage)
+def reduce_ratio(a, b):
+    if a == 0 and b == 0:
+        return (0, 0)
+    gcd = math.gcd(a, b)
+    return (a // gcd, b // gcd)    
 def handle_message(event):
     user_id = event.source.user_id
     message_text = event.message.text.strip()
@@ -257,16 +263,33 @@ def handle_message(event):
         if session["current_question"] < len(questions):
             send_question(user_id, event.reply_token)
         else:
-            mbti_result = calculate_mbti(session["answers"])
+            mbti_result, scores = calculate_mbti(session["answers"])
             info = get_mbti_info(mbti_result)
             save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
+
+# อัตราส่วนคู่ตรงข้าม
+            ratios = (
+                i, e = reduce_ratio(scores['I'], scores['E'])
+                n, s = reduce_ratio(scores['N'], scores['S'])
+                t, f = reduce_ratio(scores['T'], scores['F'])
+                j, p = reduce_ratio(scores['J'], scores['P'])
+
+                ratios = f"""อัตราส่วนลักษณะ:
+                I:E = {i}:{e}
+                N:S = {n}:{s}
+                T:F = {t}:{f}
+                J:P = {j}:{p}"""
+                )
 
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(
                     text=f"""คุณคือ {mbti_result}
-        ความหมาย: {info["คำอธิบาย"]}
-        อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}"""
+            ความหมาย: {info["คำอธิบาย"]}
+            อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
+
+            คะแนนลักษณะ:
+            {ratios}"""
                 )
             )
             del user_sessions[user_id]
@@ -300,7 +323,7 @@ def calculate_mbti(answers):
     mbti += "T" if scores["T"] >= scores["F"] else "F"
     mbti += "J" if scores["J"] >= scores["P"] else "P"
 
-    return mbti
+    return mbti, scores
 
 def get_mbti_info(mbti_type):
     mbti_descriptions = {

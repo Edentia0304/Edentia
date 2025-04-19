@@ -24,7 +24,7 @@ client = gspread.authorize(creds)
 sheet = client.open_by_key(GOOGLE_SHEET_ID).sheet1
 
 # Questions (can be expanded to full 20)
-questions = [
+questions_th = [
     {
         "text": "ข้อ 1: หากคุณต้องไปเข้าค่ายร่วมกับเพื่อนจากต่างโรงเรียนและไม่มีเพื่อนจากโรงเรียนเดียวกันไปด้วยเลย คุณจะปฏิบัติตัวอย่างไร?",
         "choices": {
@@ -227,6 +227,208 @@ questions = [
     }
     ]
 
+questions_en = [
+  {
+    "text": "Question 1: If you go to a camp with students from other schools and no one from your school comes with you, what will you do?",
+    "choices": {
+      "A": { "text": "Start by introducing yourself and making new friends right away.", "score": "E+2" },
+      "B": { "text": "Don’t talk to anyone and just wait for the camp to end.", "score": "I+2" },
+      "C": { "text": "Stay quiet, but if someone talks to you, you talk back.", "score": "I+1" },
+      "D": { "text": "Have fun with the activities and try to get to know friends you work with.", "score": "E+1" },
+      "E": { "text": "Join the activities and only talk to people you need to know.", "score": "I+1" }
+    }
+  },
+  {
+    "text": "Question 2: If you must work in a group with people you don’t know well, what will be your role?",
+    "choices": {
+      "A": { "text": "Talk to other groups when your group needs help.", "score": "E+2" },
+      "B": { "text": "Just follow and do the job you’re given.", "score": "I+2" },
+      "C": { "text": "Share your ideas and ask others for their ideas.", "score": "E+1" },
+      "D": { "text": "Listen and help, but only speak when someone asks.", "score": "I+1" },
+      "E": { "text": "Say “It’s okay, I’ll do it” if no one wants to do something.", "score": "E+1" }
+    }
+  },
+  {
+    "text": "Question 3: You’re in a new place and get lost from your friends. Your phone battery is dead. What do you do?",
+    "choices": {
+      "A": { "text": "Ask a stranger to use their phone to call your friends.", "score": "E+2" },
+      "B": { "text": "Ask for help from someone at the information counter.", "score": "E+1" },
+      "C": { "text": "Try to find your friends by yourself first. If not, then ask for help.", "score": "I+1" },
+      "D": { "text": "Wait at the meeting place for your friends.", "score": "I+1" },
+      "E": { "text": "Look for a place to charge your phone.", "score": "I+0" }
+    }
+  },
+  {
+    "text": "Question 4: What do you usually do on weekends?",
+    "choices": {
+      "A": { "text": "Call friends to go out and have fun together.", "score": "E+2" },
+      "B": { "text": "Stay in your room and do things like sleep, watch series or cartoons, play games.", "score": "I+2" },
+      "C": { "text": "Don’t plan anything, but if friends ask you out, you’ll go.", "score": "E+1" },
+      "D": { "text": "Go to a mall or market where you might see someone you know.", "score": "E+1" },
+      "E": { "text": "Ask friends if they want to go out. If not, you still go alone as planned.", "score": "I+0" }
+    }
+  },
+  {
+    "text": "Question 5: Which festival makes you the happiest?",
+    "choices": {
+      "A": { "text": "Christmas – shopping and celebrating with friends.", "score": "E+1" },
+      "B": { "text": "Songkran – go out, splash water, and have fun with friends.", "score": "E+2" },
+      "C": { "text": "Valentine’s Day – a romantic night with your partner.", "score": "I+1" },
+      "D": { "text": "Loy Krathong – fun at the fair with food and games.", "score": "E+1" },
+      "E": { "text": "New Year – long holiday and time to relax.", "score": "I+2" }
+    }
+  },
+  {
+    "text": "Question 6: What are you most interested in?",
+    "choices": {
+      "A": { "text": "Math, rules, and clear answers.", "score": "S+2" },
+      "B": { "text": "Language – listening, speaking, reading, and writing.", "score": "S+1" },
+      "C": { "text": "Finding new things using science.", "score": "S+1" },
+      "D": { "text": "Art, music, and beautiful things.", "score": "N+2" },
+      "E": { "text": "Culture, history, and how people live.", "score": "N+1" }
+    }
+  },
+  {
+    "text": "Question 7: When you read a novel or watch a movie, what do you think about?",
+    "choices": {
+      "A": { "text": "Feel the story and the emotions deeply.", "score": "N+2" },
+      "B": { "text": "Think what you would do if you were the character.", "score": "N+1" },
+      "C": { "text": "Compare the story to real life.", "score": "S+1" },
+      "D": { "text": "Check the ending first. If it’s good, then you continue.", "score": "N+1" },
+      "E": { "text": "Try to understand the message the story wants to give.", "score": "S+2" }
+    }
+  },
+  {
+    "text": "Question 8: When you buy something, what affects your choice most?",
+    "choices": {
+      "A": { "text": "Real reviews from other people.", "score": "S+2" },
+      "B": { "text": "Your favorite star is in the ad.", "score": "N+1" },
+      "C": { "text": "Your friend tells you to buy it.", "score": "S+1" },
+      "D": { "text": "You just feel like buying it.", "score": "N+2" },
+      "E": { "text": "The ingredients and results.", "score": "N+1" }
+    }
+  },
+  {
+    "text": "Question 9: In Tom & Jerry, do you think cats and mice really chase each other?",
+    "choices": {
+      "A": { "text": "Yes, cats chase mice because it’s nature.", "score": "S+2" },
+      "B": { "text": "No, they pretend to chase to help each other.", "score": "N+2" },
+      "C": { "text": "It’s just a cartoon, don’t think too much.", "score": "S+1" },
+      "D": { "text": "I watch it because it’s fun, not for the reason.", "score": "N+1" },
+      "E": { "text": "I never really thought about it.", "score": "S+0" }
+    }
+  },
+  {
+    "text": "Question 10: If you could invent something from Doraemon, what would it be?",
+    "choices": {
+      "A": { "text": "Anywhere door.", "score": "S+2" },
+      "B": { "text": "Shrink/grow flashlight.", "score": "N+1" },
+      "C": { "text": "Translation jelly.", "score": "S+1" },
+      "D": { "text": "Time cloth.", "score": "N+2" },
+      "E": { "text": "Time machine.", "score": "N+1" }
+    }
+  },
+  {
+    "text": "Question 11: If you see your friend break the rules, what will you do?",
+    "choices": {
+      "A": { "text": "Collect proof and tell the teacher right away.", "score": "T+2" },
+      "B": { "text": "Warn them first. If they don’t stop, then tell the teacher.", "score": "T+1" },
+      "C": { "text": "Act like you didn’t see it, but feel bad inside.", "score": "F+1" },
+      "D": { "text": "Talk to them and try to help find a better way.", "score": "F+1" },
+      "E": { "text": "Help them because they’re your friend.", "score": "F+2" }
+    }
+  },
+  {
+    "text": "Question 12: If your partner gets angry at you even though it’s not your fault, what do you do?",
+    "choices": {
+      "A": { "text": "Tell them not to act like that—it’s not your fault.", "score": "T+2" },
+      "B": { "text": "Say, 'Let’s talk when we both feel calm.'", "score": "T+1" },
+      "C": { "text": "Stay quiet and wait for them to calm down.", "score": "T+1" },
+      "D": { "text": "Say sorry first and then talk it out.", "score": "F+1" },
+      "E": { "text": "Shout back because it’s not your fault.", "score": "F+2" }
+    }
+  },
+  {
+    "text": "Question 13: If you lose a game many times and get really angry, what do you do?",
+    "choices": {
+      "A": { "text": "Think about why you’re angry and what it helps.", "score": "T+2" },
+      "B": { "text": "Try to calm down quickly, like watching a movie or listening to music.", "score": "T+1" },
+      "C": { "text": "Hold the anger in and don’t show it.", "score": "F+1" },
+      "D": { "text": "Show on your face that you're mad. Don’t talk to me.", "score": "F+1" },
+      "E": { "text": "Break something like throwing your phone.", "score": "F+2" }
+    }
+  },
+  {
+    "text": "Question 14: What kind of YouTube playlist fits you best?",
+    "choices": {
+      "A": { "text": "Study tips and exam tricks.", "score": "T+2" },
+      "B": { "text": "Documentaries and famous people’s stories.", "score": "T+1" },
+      "C": { "text": "Life tips and coaching videos.", "score": "T+0" },
+      "D": { "text": "ASMR and relaxing music.", "score": "F+1" },
+      "E": { "text": "Music, series, and funny clips.", "score": "F+2" }
+    }
+  },
+  {
+    "text": "Question 15: When there are problems in group work because of different ideas, what do you do?",
+    "choices": {
+      "A": { "text": "Walk away because it’s not useful for you.", "score": "T+1" },
+      "B": { "text": "Try to help solve it in a fair way.", "score": "F+2" },
+      "C": { "text": "Pick the side that is right, even if someone gets upset.", "score": "T+2" },
+      "D": { "text": "Suggest a vote to decide.", "score": "T+1" },
+      "E": { "text": "Share a new idea to help both sides.", "score": "F+1" }
+    }
+  },
+  {
+    "text": "Question 16: When you have an appointment, you usually arrive...",
+    "choices": {
+      "A": { "text": "10–15 minutes early.", "score": "J+2" },
+      "B": { "text": "Right on time.", "score": "J+1" },
+      "C": { "text": "Sometimes on time, sometimes late.", "score": "P+1" },
+      "D": { "text": "Wake up at the same time as the appointment.", "score": "P+1" },
+      "E": { "text": "Come late with no rush.", "score": "P+2" }
+    }
+  },
+  {
+    "text": "Question 17: When working on a task or project, what often happens?",
+    "choices": {
+      "A": { "text": "You follow your plan and finish on time.", "score": "J+2" },
+      "B": { "text": "You change the plan a bit but still finish well.", "score": "J+1" },
+      "C": { "text": "You rush and may skip steps to finish on time.", "score": "J+1" },
+      "D": { "text": "You don’t follow the plan because you find an easier way.", "score": "P+1" },
+      "E": { "text": "You get many new ideas and sometimes change your topic.", "score": "P+2" }
+    }
+  },
+  {
+    "text": "Question 18: Which job fits you best?",
+    "choices": {
+      "A": { "text": "Planner – you like clear steps and working in order.", "score": "J+2" },
+      "B": { "text": "Secretary – you don’t talk much but follow plans well.", "score": "J+1" },
+      "C": { "text": "Team member – your work depends on the leader.", "score": "J+1" },
+      "D": { "text": "Adapter – not always with the plan but more flexible.", "score": "P+1" },
+      "E": { "text": "Lazy one – no rush, things will get done later.", "score": "P+2" }
+    }
+  },
+  {
+    "text": "Question 19: If you have an important date but there’s heavy traffic, what do you do?",
+    "choices": {
+      "A": { "text": "You’re fine because you always have a backup plan.", "score": "J+2" },
+      "B": { "text": "Use GPS to find the fastest way.", "score": "J+1" },
+      "C": { "text": "Take the same route but call ahead to explain.", "score": "J+1" },
+      "D": { "text": "Think about what to do because you didn’t plan before.", "score": "P+1" },
+      "E": { "text": "Quickly get on a motorbike without thinking much.", "score": "P+2" }
+    }
+  },
+  {
+    "text": "Question 20: You are working on something, but your best friend invites you to a party. What do you do?",
+    "choices": {
+      "A": { "text": "Say no right away because you already planned your work.", "score": "J+2" },
+      "B": { "text": "Say yes but tell your friend you’ll come late.", "score": "J+1" },
+      "C": { "text": "Say maybe. You’ll decide depending on your work.", "score": "P+1" },
+      "D": { "text": "Change your work plan to finish fast and go.", "score": "P+1" },
+      "E": { "text": "Party and work at the same time. You can do both.", "score": "P+2" }
+    }    
+  }
+]
 
 # User session store
 user_sessions = {}
@@ -262,9 +464,29 @@ def handle_message(event):
     message_text = event.message.text.strip()
 
     if message_text.lower() == "เริ่มทำแบบทดสอบ":
-        user_sessions[user_id] = {"answers": [], "current_question": 0}
-        send_question(user_id, event.reply_token)
-
+        user_sessions[user_id] = {"state": "waiting_language"}
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="กรุณาเลือกภาษา:\nพิมพ์ 'ไทย' หรือ 'English'")
+        )
+        return
+    elif user_sessions.get(user_id, {}).get("state") == "waiting_language":
+        if message_text.lower() in ["thai", "ไทย", "english"]:
+            lang = "th" if "thai" in message_text.lower() or "ไทย" in message_text.lower() else "en"
+            user_sessions[user_id] = {
+                "language": lang,
+                "state": "doing_quiz",
+                "answers": [],
+                "current_question": 0
+            }
+            send_question(user_id, event.reply_token)
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="กรุณาพิมพ์ 'ไทย' หรือ 'English' เท่านั้นครับ 😊")
+            )
+        return
+        
     elif user_id in user_sessions:
         session = user_sessions[user_id]
         current_q = session["current_question"]
@@ -289,37 +511,52 @@ def handle_message(event):
             send_question(user_id, event.reply_token)
         else:
             mbti_result, scores = calculate_mbti(session["answers"])
-            info = get_mbti_info(mbti_result)
-            save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
+            lang = session.get("language", "th")  # ภาษา
 
-            # คำนวณอัตราส่วน
+            info = get_mbti_info(mbti_result, lang)
+            save_to_google_sheet(user_id, session["answers"], mbti_result, info["careers"])
+
             i, e = reduce_ratio(scores['I'], scores['E'])
             n, s = reduce_ratio(scores['N'], scores['S'])
             t, f = reduce_ratio(scores['T'], scores['F'])
             j, p = reduce_ratio(scores['J'], scores['P'])
 
-            ratios = f"""อัตราส่วนลักษณะ:
+            # ✅ เลือกคำตามภาษา
+            if lang == "th":
+                ratios = f"""อัตราส่วนลักษณะ:
 I:E = {i}:{e}
 N:S = {n}:{s}
 T:F = {t}:{f}
 J:P = {j}:{p}"""
+                heading = "คุณคือ"
+                meaning = "ความหมาย"
+                careers = "อาชีพที่เหมาะสม"
+                bar_title = "ลักษณะบุคลิกภาพของคุณ"
+            else:
+                ratios = f"""Trait Ratios:
+I:E = {i}:{e}
+N:S = {n}:{s}
+T:F = {t}:{f}
+J:P = {j}:{p}"""
+                heading = "Your MBTI type is"
+                meaning = "Description"
+                careers = "Recommended Careers"
+                bar_title = "Your Personality Traits"
 
-            text_chart = format_text_bar_chart(scores)
+            text_chart = format_text_bar_chart(scores, bar_title)
 
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(
-                    text=f"""คุณคือ {mbti_result}
-ความหมาย: {info["คำอธิบาย"]}
-อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
+                    text=f"""{heading} {mbti_result}
+{meaning}: {info["description"]}
+{careers}: {', '.join(info["careers"])}
 
-คะแนนลักษณะ:
 {ratios}
 
-{text_chart}
-"""
-    )
-)
+{text_chart}"""
+                )
+            )
             del user_sessions[user_id]
 
     else:
@@ -330,7 +567,9 @@ J:P = {j}:{p}"""
 
 def send_question(user_id, reply_token):
     session = user_sessions[user_id]
-    q = questions[session["current_question"]]
+    lang = session.get("language", "th")  # fallback ภาษาไทย
+    qlist = questions_th if lang == "th" else questions_en
+    q = qlist[session["current_question"]]
     text = q["text"] + "\n" + "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()])
     line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
 
@@ -354,8 +593,9 @@ def calculate_mbti(answers):
 
     return mbti, scores
 
-def get_mbti_info(mbti_type):
-    mbti_descriptions = {
+def get_mbti_info(mbti_type, lang):
+    return mbti_info_th[mbti_type] if lang == "th" else mbti_info_en[mbti_type]
+    mbti_descriptions_th = {
         "ENTJ": {
             "คำอธิบาย": "ผู้บัญชาการ: ผู้ที่มีความเป็นผู้นำสูง วิเคราะห์บนหลักของเหตุและผล มีความมั่นใจ และมีอิทธิพลต่อคนรอบข้าง",
             "อาชีพที่เหมาะสม": ["นักการเมือง", "ทนายความ", "อัยการ", "ผู้พิพากษา"]
@@ -421,7 +661,72 @@ def get_mbti_info(mbti_type):
             "อาชีพที่เหมาะสม": ["ผู้กำกับการแสดง", "ผู้สื่อข่าวเต้นรำ", "นักดนตรี", "นักโฆษณา", "นักแสดง", "นักประชาสัมพันธ์", "นางแบบ - นายแบบ", "นักจัดรายการวิทยุโทรทัศน์", "นักวิจารณ์", "จิตรกร"]
         }
     }
-
+    mbti_info_en = {
+    "ENTJ": {
+        "Description": "A strong leader. They think with logic, feel confident, and can lead others.",
+        "Occupations": ["Politician", "Lawyer", "Judge"]
+    },
+    "ENTP": {
+        "Description": "A smart and creative person. They like to talk, ask questions, and share ideas.",
+        "Occupations": ["Economist", "Doctor", "Vet", "Dentist", "Pharmacist", "Medical Lab Worker"]
+    },
+    "ENFJ": {
+        "Description": "A kind and friendly person. They care about people and like to help.",
+        "Occupations": ["Advertiser", "Actor", "PR Officer", "Interior Designer", "Architect", "Model", "TV/Radio Host", "Fashion Designer", "Critic"]
+    },
+    "ENFP": {
+        "Description": "A fun and creative person. They enjoy new things and make friends easily.",
+        "Occupations": ["Fisher", "Hiker", "Forest Worker", "Athlete", "Sailor", "Diver"]
+    },
+    "ESTJ": {
+        "Description": "A clear and practical thinker. They make smart and fair decisions.",
+        "Occupations": ["Business Broker", "Business Advisor"]
+    },
+    "ESTP": {
+        "Description": "An active and sharp person. They see details and think fast.",
+        "Occupations": ["Businessperson", "Marketer", "Manager"]
+    },
+    "ESFJ": {
+        "Description": "A warm and helpful person. People trust and like them.",
+        "Occupations": ["Career Helper", "Advisor"]
+    },
+    "ESFP": {
+        "Description": "A fun and happy person. They love people and enjoy talking.",
+        "Occupations": ["Inventor", "Photographer", "Printer", "Designer", "Writer", "Voice Actor", "Dancer", "Comic Artist", "Art Teacher", "Music Leader"]
+    },
+    "INTJ": {
+        "Description": "A planner and thinker. They love to learn and have big ideas.",
+        "Occupations": ["Statistician", "Financial Analyst"]
+    },
+    "INTP": {
+        "Description": "A thinker who loves ideas and learning. They like to create new things.",
+        "Occupations": ["Physicist", "Scientist", "Biologist", "Chemist", "Academic", "Planner"]
+    },
+    "INFJ": {
+        "Description": "A quiet and caring person. They understand others well.",
+        "Occupations": ["Teacher", "Researcher"]
+    },
+    "INFP": {
+        "Description": "A kind and honest person. They respect others and stay positive.",
+        "Occupations": ["Manager", "Librarian", "Nutritionist", "Tour Guide", "Interpreter", "Preacher"]
+    },
+    "ISTJ": {
+        "Description": "A serious and careful person. They like facts and real things.",
+        "Occupations": ["Accountant", "Secretary", "Bank Officer", "Auditor", "Clerk", "Tax Officer", "Computer Staff"]
+    },
+    "ISTP": {
+        "Description": "A hands-on person. They like to fix and build things.",
+        "Occupations": ["Technician", "Mechanic", "Builder", "Electrician", "Tailor", "Surveyor", "Plumber"]
+    },
+    "ISFJ": {
+        "Description": "A gentle and loyal person. They care about people and avoid fights.",
+        "Occupations": ["Nurse", "Social Worker", "HR Officer", "Trainer", "Peace Worker", "Diplomat"]
+    },
+    "ISFP": {
+        "Description": "A quiet and free person. They enjoy time alone but are still friendly.",
+        "Occupations": ["Director", "Musician", "Artist", "Actor", "PR Officer", "Model", "TV Host", "Critic", "Painter"]
+    }
+}
     return mbti_descriptions.get(
         mbti_type,
         {
@@ -429,8 +734,6 @@ def get_mbti_info(mbti_type):
             "faculties": ["ยังไม่มีคำแนะนำคณะที่ชัดเจน"]
         }
     )
-
-
 
 def save_to_google_sheet(user_id, answers, mbti_result, faculties):
     timestamp = datetime.now().isoformat()

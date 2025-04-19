@@ -226,13 +226,13 @@ questions = [
         }
     }
     ]
-    return mbti_descriptions.get(
-        mbti_type,
-        {
-            "description": "ไม่พบข้อมูลบุคลิกภาพนี้",
-            "faculties": ["ยังไม่มีคำแนะนำคณะที่ชัดเจน"]
-        }
-    )
+return mbti_descriptions.get(
+    mbti_type,
+    {
+        "description": "ไม่พบข้อมูลบุคลิกภาพนี้",
+        "faculties": ["ยังไม่มีคำแนะนำคณะที่ชัดเจน"]
+    }
+)
 
 # User session store
 user_sessions = {}

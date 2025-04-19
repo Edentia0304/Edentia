@@ -431,7 +431,15 @@ questions_en = [
 ]
 
 # User session store
-user_sessions = {}
+user_sessions = {}    
+def format_text_bar_chart(scores, title="ลักษณะบุคลิกภาพของคุณ"):
+    chart_lines = [title]
+    for trait in ['E', 'I', 'S', 'N', 'T', 'F', 'J', 'P']:
+        val = scores[trait]
+        bar = "█" * val
+        chart_lines.append(f"{trait}: {bar} ({val})")
+    return "\n".join(chart_lines)
+    
 def calculate_mbti(answers, questions):
     scores = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}
     for i, ans in enumerate(answers):
@@ -447,16 +455,7 @@ def calculate_mbti(answers, questions):
     mbti += "T" if scores["T"] >= scores["F"] else "F"
     mbti += "J" if scores["J"] >= scores["P"] else "P"
 
-    return mbti, scores
-    
-def format_text_bar_chart(scores, title="ลักษณะบุคลิกภาพของคุณ"):
-    chart_lines = [title]
-    for trait in ['E', 'I', 'S', 'N', 'T', 'F', 'J', 'P']:
-        val = scores[trait]
-        bar = "█" * val
-        chart_lines.append(f"{trait}: {bar} ({val})")
-    return "\n".join(chart_lines)
-    
+    return mbti, scores    
 @app.route("/webhook", methods=['POST'])
 def webhook():
     signature = request.headers['X-Line-Signature']
@@ -598,8 +597,6 @@ def send_question(user_id, reply_token):
     text = q["text"] + "\n" + "\n".join([f"{k}. {v['text']}" for k, v in q["choices"].items()])
     line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
 
-
-    return mbti, scores
     
 mbti_descriptions_th = {
         "ENTJ": {
@@ -741,14 +738,21 @@ mbti_info_en = {
     }
 }
 def get_mbti_info(mbti_type, lang):
-    info = mbti_info_th.get(mbti_type) if lang == "th" else mbti_info_en.get(mbti_type)
-    if info is None:
-        return {
-            "description": "ไม่พบข้อมูลบุคลิกภาพนี้" if lang == "th" else "Unknown MBTI type.",
-            "careers": ["ไม่มีข้อมูลอาชีพที่เหมาะสม" if lang == "th" else "No career data available."]
+    if lang == "th":
+        info = mbti_info_th.get(mbti_type)
+        return info or {
+            "description": "ไม่พบข้อมูลบุคลิกภาพนี้",
+            "careers": ["ยังไม่มีคำแนะนำอาชีพ"]
         }
-    return info
+    else:
+        info = mbti_info_en.get(mbti_type)
+        return info or {
+            "description": "Unknown type",
+            "careers": ["No recommended careers yet"]
+        }
     
+print("MBTI:", mbti_result)
+print("Scores:", scores)
 
 def save_to_google_sheet(user_id, answers, mbti_result, faculties):
     timestamp = datetime.now().isoformat()

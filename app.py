@@ -446,6 +446,8 @@ def calculate_mbti(answers, questions):
     mbti += "S" if scores["S"] >= scores["N"] else "N"
     mbti += "T" if scores["T"] >= scores["F"] else "F"
     mbti += "J" if scores["J"] >= scores["P"] else "P"
+
+    return mbti, scores
     
 def format_text_bar_chart(scores, title="ลักษณะบุคลิกภาพของคุณ"):
     chart_lines = [title]

@@ -266,19 +266,17 @@ def handle_message(event):
             info = get_mbti_info(mbti_result)
             save_to_google_sheet(user_id, session["answers"], mbti_result, info["อาชีพที่เหมาะสม"])
 
-# อัตราส่วนคู่ตรงข้าม
+    # อัตราส่วนคู่ตรงข้าม
+            i, e = reduce_ratio(scores['I'], scores['E'])
+            n, s = reduce_ratio(scores['N'], scores['S'])
+            t, f = reduce_ratio(scores['T'], scores['F'])
+            j, p = reduce_ratio(scores['J'], scores['P'])
 
-                i, e = reduce_ratio(scores['I'], scores['E'])
-                n, s = reduce_ratio(scores['N'], scores['S'])
-                t, f = reduce_ratio(scores['T'], scores['F'])
-                j, p = reduce_ratio(scores['J'], scores['P'])
-
-                ratios = f"""อัตราส่วนลักษณะ:
+            ratios = f"""อัตราส่วนลักษณะ:
         I:E = {i}:{e}
         N:S = {n}:{s}
         T:F = {t}:{f}
         J:P = {j}:{p}"""
-
 
             line_bot_api.reply_message(
                 event.reply_token,

@@ -304,12 +304,12 @@ N:S = {n}:{s}
 T:F = {t}:{f}
 J:P = {j}:{p}"""
 
-text_chart = format_text_bar_chart(scores)
+            text_chart = format_text_bar_chart(scores)
 
-line_bot_api.reply_message(
-    event.reply_token,
-    TextSendMessage(
-        text=f"""คุณคือ {mbti_result}
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text=f"""คุณคือ {mbti_result}
 ความหมาย: {info["คำอธิบาย"]}
 อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
 

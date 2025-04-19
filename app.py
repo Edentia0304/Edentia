@@ -600,7 +600,6 @@ def calculate_mbti(answers, questions):
 
     return mbti, scores
     
-mbti_info_th = mbti_descriptions_th
 mbti_descriptions_th = {
         "ENTJ": {
             "คำอธิบาย": "ผู้บัญชาการ: ผู้ที่มีความเป็นผู้นำสูง วิเคราะห์บนหลักของเหตุและผล มีความมั่นใจ และมีอิทธิพลต่อคนรอบข้าง",
@@ -667,6 +666,7 @@ mbti_descriptions_th = {
             "อาชีพที่เหมาะสม": ["ผู้กำกับการแสดง", "ผู้สื่อข่าวเต้นรำ", "นักดนตรี", "นักโฆษณา", "นักแสดง", "นักประชาสัมพันธ์", "นางแบบ - นายแบบ", "นักจัดรายการวิทยุโทรทัศน์", "นักวิจารณ์", "จิตรกร"]
         }
     }
+mbti_info_th = mbti_descriptions_th
 mbti_info_en = {
     "ENTJ": {
         "Description": "A strong leader. They think with logic, feel confident, and can lead others.",

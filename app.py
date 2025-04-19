@@ -231,6 +231,14 @@ questions = [
 # User session store
 user_sessions = {}
 
+def format_text_bar_chart(scores):
+    chart_lines = ["ลักษณะบุคลิกภาพของคุณ"]
+    for trait in ['E', 'I', 'S', 'N', 'T', 'F', 'J', 'P']:
+        val = scores[trait]
+        bar = "█" * val
+        chart_lines.append(f"{trait}: {bar}  ({val})")
+    return "\n".join(chart_lines)
+    
 @app.route("/webhook", methods=['POST'])
 def webhook():
     signature = request.headers['X-Line-Signature']
@@ -296,17 +304,22 @@ N:S = {n}:{s}
 T:F = {t}:{f}
 J:P = {j}:{p}"""
 
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(
-                    text=f"""คุณคือ {mbti_result}
+text_chart = format_text_bar_chart(scores)
+
+line_bot_api.reply_message(
+    event.reply_token,
+    TextSendMessage(
+        text=f"""คุณคือ {mbti_result}
 ความหมาย: {info["คำอธิบาย"]}
 อาชีพที่เหมาะสม: {', '.join(info["อาชีพที่เหมาะสม"])}
 
 คะแนนลักษณะ:
-{ratios}"""
-                )
-            )
+{ratios}
+
+{text_chart}
+"""
+    )
+)
             del user_sessions[user_id]
 
     else:
